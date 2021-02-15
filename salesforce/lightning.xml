@@ -1,0 +1,176 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<!DOCTYPE framework [
+	<!ELEMENT framework ((dynamic-parameters?), (request-definition*),(simplified-VU-class?))>
+	<!ELEMENT dynamic-parameters (dynamic-parameter+)>
+	<!ELEMENT dynamic-parameter (dp-request-injector*)>
+	<!ELEMENT dp-request-injector (#PCDATA)>
+	<!ELEMENT request-definition (detection-rules, merge-request-rules?, message-definition*, result-handler?)>
+	<!ELEMENT detection-rules (rule)>
+	<!ELEMENT merge-request-rules (rule)>
+	<!ELEMENT result-handler (timestamp-extractor?)>
+	<!ELEMENT timestamp-extractor (#PCDATA)>
+	<!ELEMENT message-definition ((conditions?), (name-extractor?))>
+	<!ELEMENT conditions (condition*)>
+	<!ELEMENT condition (#PCDATA)>
+	<!ELEMENT name-extractor (#PCDATA)>
+	<!ELEMENT simplified-VU-class (#PCDATA)>
+	<!ELEMENT rule (rule*)>
+	
+	<!ATTLIST framework
+		name CDATA #REQUIRED
+		type CDATA #IMPLIED
+		isReadOnly CDATA #IMPLIED
+		version CDATA #REQUIRED
+		licenseID CDATA #IMPLIED
+		state CDATA #REQUIRED 
+		group-consecutive-push-requests CDATA #IMPLIED>
+
+	<!ATTLIST dynamic-parameter
+		name CDATA #REQUIRED
+		enabled CDATA #IMPLIED 
+		extractionSource CDATA #REQUIRED
+		extractionMethod CDATA #REQUIRED
+		xpath CDATA #IMPLIED
+		jsonpath CDATA #IMPLIED
+		regexp CDATA #REQUIRED
+		template CDATA #REQUIRED>
+	
+	<!ATTLIST dp-request-injector
+		type CDATA #REQUIRED
+		injectionMethod CDATA #IMPLIED
+		parameterName CDATA #IMPLIED
+		xpath CDATA #IMPLIED
+		jsonpath CDATA #IMPLIED
+		regexp CDATA #IMPLIED
+		groups CDATA #IMPLIED>
+	
+	<!ATTLIST request-definition
+		pushType CDATA #REQUIRED
+		network CDATA #IMPLIED 
+		plugin CDATA #IMPLIED 
+		streamingType CDATA #IMPLIED 
+		classname CDATA #IMPLIED
+		pollingMaxDeltaT CDATA #IMPLIED
+		pollingDefaultDelay CDATA #IMPLIED>
+		
+	<!ATTLIST result-handler 
+		type CDATA #IMPLIED 
+		messageSplitterRegexp CDATA #IMPLIED
+		messageSplitterRegexpGroup CDATA #IMPLIED
+		responseSource CDATA #IMPLIED
+		endOfPacket CDATA #IMPLIED>
+	
+	<!ATTLIST timestamp-extractor 
+		regExp CDATA #REQUIRED
+		template CDATA #REQUIRED 
+		setDefaultValue CDATA #REQUIRED 
+		defaultValue CDATA #REQUIRED
+		assertionOnNoMatch CDATA #IMPLIED
+		extractType CDATA #IMPLIED
+		matchNumber CDATA #IMPLIED
+		name CDATA #IMPLIED
+		uid CDATA #IMPLIED
+		valueHtmlEncoded CDATA #IMPLIED>
+	
+	<!ATTLIST message-definition
+		messageType CDATA #REQUIRED>
+	
+	<!ATTLIST name-extractor
+		regExp CDATA #REQUIRED
+		template CDATA #REQUIRED
+		setDefaultValue CDATA #REQUIRED 
+		defaultValue CDATA #IMPLIED
+		assertionOnNoMatch CDATA #IMPLIED
+		extractType CDATA #IMPLIED
+		matchNumber CDATA #IMPLIED
+		name CDATA #IMPLIED
+		uid CDATA #IMPLIED
+		valueEncoded CDATA #IMPLIED
+		valueHtmlEncoded CDATA #IMPLIED
+		valueUrlEncoded CDATA #IMPLIED>
+	
+	<!ATTLIST rule
+		type CDATA #REQUIRED
+		operator CDATA #REQUIRED
+		value CDATA #IMPLIED
+		from CDATA #IMPLIED 
+		header CDATA #IMPLIED
+		parametername CDATA #IMPLIED>
+	
+	<!ATTLIST conditions
+		match-type CDATA #IMPLIED>
+	
+	<!ATTLIST condition
+		operand1 CDATA #REQUIRED
+		operator CDATA #REQUIRED
+		operand2 CDATA #REQUIRED>
+		 
+	<!ATTLIST name
+		template CDATA #REQUIRED>
+		 		
+	<!ATTLIST simplified-VU-class
+		classname CDATA #REQUIRED>
+]>
+<framework isReadOnly="false" name="Lightning_SF_Spring20" signature="" state="SELECTED" uniqueID="0" version="7.0.0">
+<dynamic-parameters>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="_chat_token" regexp="&quot;key&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector type="HEADERS"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="HEADERS" name="_lm" regexp="&amp;lm=(.*)" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="HEADERS" name="_sid" regexp="sid=(.*?)&amp;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="_chat_affinity" regexp="&quot;affinityToken&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+<dp-request-injector type="HEADERS"/>
+<dp-request-injector groups="1" injectionMethod="PART_OF_TEXT" regexp="(.*?)" type="TEXT_CONTENT"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="HEADERS" name="_cshc" regexp="&amp;cshc=(.*?)&amp;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="_aura_appid" regexp="&quot;appDefinition&quot;:\{&quot;id&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+<dp-request-injector groups="1" injectionMethod="PART_OF_TEXT" regexp="(.*?)" type="TEXT_CONTENT"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="_sfdc_session" regexp="&quot;sfdcSessionKey&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector type="HEADERS"/>
+<dp-request-injector groups="1" injectionMethod="PART_OF_TEXT" regexp="(.*?)" type="TEXT_CONTENT"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_auratoken" regexp="&quot;token&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_fwuid" regexp="&quot;fwuid&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_oneone" regexp="one:one&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_currentUserEmail" regexp="\{&quot;CurrentUser&quot;:\{&quot;isChatterEnabled&quot;:true,&quot;Email&quot;:&quot;(.*?)&quot;,&quot;Id&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_current_UserId" regexp="\{&quot;CurrentUser&quot;:\{&quot;isChatterEnabled&quot;:true,&quot;Email&quot;:&quot;(.*?)&quot;,&quot;Id&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_accountId" regexp="&quot;AccountId&quot;,&quot;isCollection&quot;:false,&quot;value&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_apikey" regexp="&amp;apikey=(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_DSPName" regexp="&quot;DSPName__c&quot;:\{&quot;displayValue&quot;:null,&quot;value&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_endDateTime" regexp="&quot;&quot;,&quot;endDateTime&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="corr_starDateTime" regexp="&quot;starDateTime&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+</dynamic-parameters>
+<websocket enabled="false">
+<request extractionMethod="REGEXP_ONLY" regexp="" template="$1$"/>
+<response extractionMethod="REGEXP_ONLY" regexp="" template="$1$"/>
+</websocket>
+</framework>
