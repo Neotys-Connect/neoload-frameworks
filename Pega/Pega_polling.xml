@@ -1,0 +1,196 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<!DOCTYPE framework [
+	<!ELEMENT framework ((dynamic-parameters?), (request-definition*),(simplified-VU-class?))>
+	<!ELEMENT dynamic-parameters (dynamic-parameter+)>
+	<!ELEMENT dynamic-parameter (dp-request-injector*)>
+	<!ELEMENT dp-request-injector (#PCDATA)>
+	<!ELEMENT request-definition (detection-rules, merge-request-rules?, message-definition*, result-handler?)>
+	<!ELEMENT detection-rules (rule)>
+	<!ELEMENT merge-request-rules (rule)>
+	<!ELEMENT result-handler (timestamp-extractor?)>
+	<!ELEMENT timestamp-extractor (#PCDATA)>
+	<!ELEMENT message-definition ((conditions?), (name-extractor?))>
+	<!ELEMENT conditions (condition*)>
+	<!ELEMENT condition (#PCDATA)>
+	<!ELEMENT name-extractor (#PCDATA)>
+	<!ELEMENT simplified-VU-class (#PCDATA)>
+	<!ELEMENT rule (rule*)>
+	
+	<!ATTLIST framework
+		name CDATA #REQUIRED
+		type CDATA #IMPLIED
+		isReadOnly CDATA #IMPLIED
+		version CDATA #REQUIRED
+		licenseID CDATA #IMPLIED
+		state CDATA #REQUIRED 
+		group-consecutive-push-requests CDATA #IMPLIED>
+
+	<!ATTLIST dynamic-parameter
+		name CDATA #REQUIRED
+		enabled CDATA #IMPLIED 
+		extractionSource CDATA #REQUIRED
+		extractionMethod CDATA #REQUIRED
+		xpath CDATA #IMPLIED
+		jsonpath CDATA #IMPLIED
+		regexp CDATA #REQUIRED
+		template CDATA #REQUIRED>
+	
+	<!ATTLIST dp-request-injector
+		type CDATA #REQUIRED
+		injectionMethod CDATA #IMPLIED
+		parameterName CDATA #IMPLIED
+		xpath CDATA #IMPLIED
+		jsonpath CDATA #IMPLIED
+		regexp CDATA #IMPLIED
+		groups CDATA #IMPLIED>
+	
+	<!ATTLIST request-definition
+		pushType CDATA #REQUIRED
+		network CDATA #IMPLIED 
+		plugin CDATA #IMPLIED 
+		streamingType CDATA #IMPLIED 
+		classname CDATA #IMPLIED
+		pollingMaxDeltaT CDATA #IMPLIED
+		pollingDefaultDelay CDATA #IMPLIED>
+		
+	<!ATTLIST result-handler 
+		type CDATA #IMPLIED 
+		messageSplitterRegexp CDATA #IMPLIED
+		messageSplitterRegexpGroup CDATA #IMPLIED
+		responseSource CDATA #IMPLIED
+		endOfPacket CDATA #IMPLIED>
+	
+	<!ATTLIST timestamp-extractor 
+		regExp CDATA #REQUIRED
+		template CDATA #REQUIRED 
+		setDefaultValue CDATA #REQUIRED 
+		defaultValue CDATA #REQUIRED
+		assertionOnNoMatch CDATA #IMPLIED
+		extractType CDATA #IMPLIED
+		matchNumber CDATA #IMPLIED
+		name CDATA #IMPLIED
+		uid CDATA #IMPLIED
+		valueHtmlEncoded CDATA #IMPLIED>
+	
+	<!ATTLIST message-definition
+		messageType CDATA #REQUIRED>
+	
+	<!ATTLIST name-extractor
+		regExp CDATA #REQUIRED
+		template CDATA #REQUIRED
+		setDefaultValue CDATA #REQUIRED 
+		defaultValue CDATA #IMPLIED
+		assertionOnNoMatch CDATA #IMPLIED
+		extractType CDATA #IMPLIED
+		matchNumber CDATA #IMPLIED
+		name CDATA #IMPLIED
+		uid CDATA #IMPLIED
+		valueEncoded CDATA #IMPLIED
+		valueHtmlEncoded CDATA #IMPLIED
+		valueUrlEncoded CDATA #IMPLIED>
+	
+	<!ATTLIST rule
+		type CDATA #REQUIRED
+		operator CDATA #REQUIRED
+		value CDATA #IMPLIED
+		from CDATA #IMPLIED 
+		header CDATA #IMPLIED
+		parametername CDATA #IMPLIED>
+	
+	<!ATTLIST conditions
+		match-type CDATA #IMPLIED>
+	
+	<!ATTLIST condition
+		operand1 CDATA #REQUIRED
+		operator CDATA #REQUIRED
+		operand2 CDATA #REQUIRED>
+		 
+	<!ATTLIST name
+		template CDATA #REQUIRED>
+		 		
+	<!ATTLIST simplified-VU-class
+		classname CDATA #REQUIRED>
+]>
+<framework isReadOnly="false" name="PEGA" signature="" state="SELECTED" type="PUSH" uniqueID="0" version="6.5.0">
+<dynamic-parameters>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="pzTransactionId" regexp="pzTransactionId=([a-z,0-9]+?)&quot;," setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" parameterName="pzTransactionId" type="PARAMETER_VALUE"/>
+<dp-request-injector type="HEADERS"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="HEADERS" name="EnvPega" regexp="location: http.*/(.*)/!STANDARD" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+<dp-request-injector type="PATH"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="pzHarnessID" regexp="&lt;input type='hidden' id='pzHarnessID' value='(.*?)'" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" parameterName="pzHarnessID" type="PARAMETER_VALUE"/>
+<dp-request-injector type="HEADERS"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="HEADERS" name="x-atmosphere-tracking-id" regexp="x-atmosphere-tracking-id: (.*)" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="CHECKBOX_$2$_$3$" regexp="&lt;input type='hidden' value='false'  name='(\$([^$]+)\$([^$]+)\$l\d+)\$ppySelected" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="containedSectionID_$1$" regexp="node_name='py(.*?)' containedSectionID='(GID_\d+)'" setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="Interaction_$1$" regexp="node_name='([^']*)' data-node-id='[^']*' version='[^']*' objclass='[^']*'  pyclassname='[^']*' readonly='[^']*'  NAME='[^']*' BASE_REF='(D_Interaction_[^']*)' " setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="UniqueID_$1$" regexp="node_name='SocialLogArea' data-node-id='([^']*)' version='[^']*' objclass='[^']*'  pyclassname='[^']*' readonly='[^']*'  NAME='[^']*' BASE_REF='[^']*' expandRL='[^']*' uniqueID='(SID\d+)' " setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="UniqueID2_$1$" regexp="section&quot;:&quot;([^&quot;]+)&quot;,&quot;class&quot;:&quot;[^&quot;]+&quot;,&quot;UID&quot;:&quot;([^&quot;]+)" setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="BaseREference_$2$_$3$" regexp=" BASE_REF='(([^.]+).(\w+)\((\d+)\))' " setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="EXPANDEDSubSection_$2$_$3$" regexp="PARAM_NAME=&quot;EXPANDEDSubSection(([^~]+)~([a-bA-Z]+)_\d+)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="EXPANDEDSubSectionbis_$2$_$3$" regexp=" PARAM_NAME=&quot;EXPANDEDSubSection(([^~]+)~(pzLayout_\d+))" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="EXPANDEDSubSectionsbis_$2$_$3$" regexp=" &quot;paramName&quot;:&quot;EXPANDEDSubSection(([^~]+)~(pzLayout_\d+))" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="pyRecordID" regexp="&quot;pyRecordID&quot;:&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+<dp-request-injector type="HEADERS"/>
+<dp-request-injector groups="1" injectionMethod="PART_OF_TEXT" regexp="(.*?)" type="TEXT_CONTENT"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="pzHarnessID_1" regexp="id=&quot;pzHarnessID&quot; value=&quot;(.*?)&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="WHOLE_VALUE" parameterName="pzHarnessID" type="PARAMETER_VALUE"/>
+<dp-request-injector type="HEADERS"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="PREMPAGE_$1$" regexp="summary='([^']+)' PL_PROP='[^']+' PL_PROP_CLASS='[^']+' PRIM_PAGE='([^']+)' " setDefaultValue="true" template="$2$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+<dynamic-parameter assertionOnNoMatch="true" defaultValue="&lt;NOT FOUND&gt;" extractionMethod="REGEXP_ONLY" extractionSource="BODY" name="baseref_$2$_$3$_$4$" regexp="&quot;baseRef&quot;:&quot;((\w+)\.([^(]+)\((\d+)\))&quot;" setDefaultValue="true" template="$1$">
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_NAME"/>
+<dp-request-injector injectionMethod="PART_OF_THE_VALUE" type="PARAMETER_VALUE"/>
+</dynamic-parameter>
+</dynamic-parameters>
+<websocket enabled="false">
+<request extractionMethod="REGEXP_ONLY" regexp="" template="$1$"/>
+<response extractionMethod="REGEXP_ONLY" regexp="" template="$1$"/>
+</websocket>
+<request-definition network="HTTP" pushType="POLLING">
+<detection-rules>
+<rule operator="AND" type="COMPOSITE">
+<rule operator="CONTAINS" type="PATH" value="PRPushServlet"/>
+<rule operator="EQUALS" type="HTTP_PARAMETER_NAME" value="X-Atmosphere-Transport"/>
+</rule>
+</detection-rules>
+<result-handler responseSource="RESPONSE" type="REGEXP"/>
+</request-definition>
+</framework>
